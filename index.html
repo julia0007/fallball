@@ -1,0 +1,105 @@
+<html>
+<head>
+    <script type="text/javascript" src="phaser.js">  </script>
+  <script type="text/javascript">
+
+function start(){
+  var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, render: render,update: update });
+
+
+var circles =[]
+var colors =["orange","hotpink","magenta","lime","lightblue"]
+var floor;
+function isOverlapping(circle){
+for(var i in circles){
+  var c=circles[i]
+  if(c==circle)
+  continue;
+  var xd=c.x-circle.x
+var yd=c.y-circle.y
+var distance=Math.sqrt(xd*xd+yd*yd)
+if(distance<130){
+  return true
+
+}
+
+
+}
+return false
+ }
+function resetBall(circle){
+  circle.x=game.rnd.integerInRange(65,game.width-65)
+  circle.y=-game.rnd.integerInRange(0,200)
+  circle.color=colors[game.rnd.integerInRange(0,colors.length-1)]
+if(isOverlapping(circle)){
+  resetBall(circle)
+
+}
+
+}
+
+function addBall(){
+  var ball=new Phaser.Circle(0,0,64)
+  resetBall(ball)
+
+  circles.push(ball)
+
+
+
+}
+
+function create() {
+  addBall()
+    addBall()
+      addBall()
+        addBall()
+          addBall()
+          addBall()
+
+
+
+
+  addBall()
+   game.time.events.repeat(Phaser.Timer.SECOND * 6, 10000, speedup, this);
+}
+
+
+function render () {
+  for(var i in circles){
+    game.debug.geom(circles[i],circles[i].color);
+  }
+
+
+
+
+
+}
+var bullspeed=10
+function speedup (){
+   bullspeed=1+bullspeed
+}
+
+function update () {
+  for(var i in circles){
+
+    circles[i].y+=bullspeed
+    if(circles[i].y>game.height){
+  resetBall(circles[i])}
+  }
+
+
+}
+
+
+
+
+//  alert("helllllllllllllllllllllllllllooooooooooooooooo")
+}
+
+  </script>
+</head>
+<body onload="start();">
+
+
+</body>
+</html>
